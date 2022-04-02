@@ -1,0 +1,34 @@
+Package: BinaryClust
+Title: CyTOF Analysis Pipeline Using Binary Classification Followed by Clustering
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Desmond",
+           family = "Choy",
+           role = c("aut", "cre"),
+           email = "desmond.choy@kcl.ac.uk")
+Description: CyTOF data exploration and analysis pipeline using binary classification followed by clustering
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+	circlize,
+	ComplexHeatmap,
+	flowCore,
+	FlowSOM,
+	ggpubr,
+	ggrepel,
+	grid,
+	gridExtra,
+	gtable,
+	pheatmap,
+	RColorBrewer,
+	Rtsne,
+	tidyverse,
+	umap
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

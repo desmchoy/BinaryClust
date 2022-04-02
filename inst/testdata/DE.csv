@@ -1,0 +1,12 @@
+Condition,File
+HD,/scratch/users/k2032348/BinaryClust/test_files/HD2.csv
+HD,/scratch/users/k2032348/BinaryClust/test_files/HD7.csv
+HD,/scratch/users/k2032348/BinaryClust/test_files/HD8.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat1_EOT.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat1_SCR.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat2_EOT.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat2_SCR.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat8_EOT.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat8_SCR.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat9_EOT.csv
+Pat,/scratch/users/k2032348/BinaryClust/test_files/Pat9_SCR.csv

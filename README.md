@@ -33,7 +33,7 @@ Don't forget to load the package after installation:
 library(BinaryClust)
 ```
 
-The original BinaryClust pipeline was designed for large-scale parallel runs on a high performance computing (HPC) facility. However, for reasonably sized samples, it can be used on local installations or via an IDE such as RStudio. It is not recommended to run t-SNE or UMAP for large samples on a local installation due to the computational demands.
+The original BinaryClust pipeline was designed for large-scale parallel runs on a high performance computing (HPC) facility. However, for reasonably sized samples, it can be used on local installations or via an IDE such as RStudio. You may need to install Rtools to build BinaryClust. It is not recommended to run t-SNE or UMAP for large samples on a local installation due to the computational demands.
 
 
 

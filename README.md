@@ -38,6 +38,9 @@ The original BinaryClust pipeline was designed for large-scale parallel runs on 
 
 
 
+## Introduction
+CyTOF data is log normal with zero inflation for most markers. BinaryClust takes advantage of this feature to classify cells based on automated binary classification.
+
 
 ## Quick Start
 BinaryClust is designed to be efficient and straight to the point. A quick analysis can be run within seconds using a single command given an FCS file and a user-defined cell classification file in CSV format (see the following section for details):

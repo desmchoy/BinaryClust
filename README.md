@@ -39,7 +39,13 @@ The original BinaryClust pipeline was designed for large-scale parallel runs on 
 
 
 ## Introduction
-CyTOF data is log normal with zero inflation for most markers. BinaryClust takes advantage of this feature to classify cells based on automated binary classification.
+CyTOF data is log normal with zero inflation for most markers:
+![CD3](/images/CD3.png)
+
+BinaryClust takes advantage of this feature to subset cells for clustering by performing binary classifications on the markers. Using _K_-means clustering (_K_ = 2), it is possible to automatically separate cells into positive and negative populations. Here, _K_-means breaks down the cells into CD3+ (red) and CD3- (blue) populations:
+![CD3 K-means](/images/CD3_shaded.png)
+
+
 
 
 ## Quick Start

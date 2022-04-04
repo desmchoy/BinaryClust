@@ -3,6 +3,25 @@ Tools for CyTOF analysis
 
 
 
+## Introduction
+CyTOF data is log normal with zero inflation for most markers. For example:
+
+![CD3](/images/CD3.png)
+
+BinaryClust takes advantage of this feature to subset cells for clustering by performing binary classifications on the markers. Using _K_-means clustering (_K_ = 2), it is possible to automatically separate cells into positive and negative populations. Here, _K_-means breaks down the cells into CD3+ (red) and CD3- (blue) populations:
+
+![CD3 K-means](/images/CD3_shaded.png)
+
+This process is done in BinaryClust on all the markers separately to generate a classification matrix. A user-defined selection criteria will then classify these cells into different populations, which will then be individually clustered:
+
+![BinaryClust Schematic](/images/schematic.png)
+
+BinaryClust also comes with a set of functions to perform standard analysis tasks such as data exploration and data visualisation by _t_-SNE or UMAP.
+
+
+
+
+
 ## Prerequisites and Installation
 To intall BinaryClust, you will first need to install the R packages devtools and BiocManager:
 
@@ -33,17 +52,8 @@ Don't forget to load the package after installation:
 library(BinaryClust)
 ```
 
-The original BinaryClust pipeline was designed for large-scale parallel runs on a high performance computing (HPC) facility. However, for reasonably sized samples, it can be used on local installations or via an IDE such as RStudio. It is not recommended to run t-SNE or UMAP for large samples on a local installation due to the computational demands.
+The original BinaryClust pipeline was designed for large-scale parallel runs on a high performance computing (HPC) facility. However, for reasonably sized samples, it can be used on local installations or via an IDE such as RStudio. though it is not recommended to run _t_-SNE or UMAP for large samples on a local installation due to computational demands.
 
-
-
-
-## Introduction
-CyTOF data is log normal with zero inflation for most markers:
-![CD3](/images/CD3.png)
-
-BinaryClust takes advantage of this feature to subset cells for clustering by performing binary classifications on the markers. Using _K_-means clustering (_K_ = 2), it is possible to automatically separate cells into positive and negative populations. Here, _K_-means breaks down the cells into CD3+ (red) and CD3- (blue) populations:
-![CD3 K-means](/images/CD3_shaded.png)
 
 
 

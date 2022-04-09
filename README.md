@@ -332,3 +332,6 @@ of the cell types:
 
 ![Cell Type Medians](/images/cell_type_medians.png)
 
+
+
+## Data Visualisation with _t_-SNE and UMAP

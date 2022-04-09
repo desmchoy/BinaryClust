@@ -176,6 +176,9 @@ To run standard BinaryClust analysis for a single CyTOF file, two files are need
 1. A CyTOF FCS file (formats prior to FCS 3.1 not tested)
 2. A cell classification file in CSV format
 
+##### The FCS File
+Please remove spaces and special characters from the file name as they will interfer with the code
+
 ##### The Cell Classification File
 The cell stratification file should be in CSV format. An example is shown below. 
 ```
@@ -189,6 +192,7 @@ B Cells,-,-,-,+,A,-,A,A,A,A
 "T Cells, CD8",-,A,A,-,A,+,-,A,+,-
 ```
 
+`+` means positively expressed, `-` means negatively expressed and `A` means "any". The marker name is determined by the `desc` column of the flowCore flowFrame object. Please use the `print_parameters` function to choose marker names (see Feature Selection section below). As exemplified above, if there is a comma `,` in the cell type name, please ensure to encircle it with quotation marks.
 
 
 

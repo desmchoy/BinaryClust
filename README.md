@@ -168,8 +168,6 @@ Each of these analysis steps will now be explained in the following section.
 
 
 
-## Data Exploration
-
 
 
 ## Required Input Files
@@ -195,3 +193,42 @@ B Cells,-,-,-,+,A,-,A,A,A,A
 
 
 
+## Feature Selection
+Assuming you have an FCS file called `HD.fcs`, before loading the data, you can examine the marker distributions with the function `examine_data`:
+
+```
+input.file <- '/your/data/directory/HD.fcs'
+examine_data(input.file)
+```
+
+which will return a graph:
+
+![examine_data](/images/examine_data.png)
+
+This will allow identification of markers that are sufficiently well-behaved for binary classification.
+
+
+The `print_parameters` function will print the parameter page of the flowCore flowFrame object of the FCS file:
+
+```
+> print_parameters(input.file)
+             name               desc   range minRange maxRange
+$P1          Time               Time 1048576        0  1048575
+$P2  Event_length       Event_length    4096        0     4095
+$P3         Y89Di           89Y_CD45    4096        0     4095
+$P4       Rh103Di              103Rh    4096        0     4095
+$P5       Sn120Di              120Sn    4096        0     4095
+$P6        I127Di               127I    4096        0     4095
+$P7       Xe131Di              131Xe    4096        0     4095
+$P8       Cs133Di              133Cs    4096        0     4095
+$P9       Ba138Di              138Ba   65536        0    65535
+$P10      Ce140Di         140Ce_Bead    8192        0     8191
+$P11      Pr141Di   141Pr_CD196_CCR6    8192        0     8191
+$P12      Nd142Di         142Nd_CD19    4096        0     4095
+$P13      Nd143Di 143Nd_CD127_IL-7Ra    4096        0     4095
+$P14      Nd144Di         144Nd_CD38   32768        0    32767
+$P15      Nd145Di         145Nd_CD33    4096        0     4095
+...
+```
+
+The `desc` column is used to select useful channels for analysis. When you load data, channels with underscore `_` will be chosen. Channels that contain 'Event_length', 'Bead', 'DNA', 'Live_Dead' and 'Viability' (case insensitive) are then removed. The remaining channels will have the heavy metal removed. Therefore, if the channel name is '89Y_CD45', the marker name will be 'CD45'. If the channel name is '141Pr_CD196_CCR6', the marker name will be 'CD196_CCR6'.

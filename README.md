@@ -236,3 +236,99 @@ $P15      Nd145Di         145Nd_CD33    4096        0     4095
 ```
 
 The `desc` column is used to select useful channels for analysis. When you load data, channels with underscore `_` will be chosen. Channels that contain 'Event_length', 'Bead', 'DNA', 'Live_Dead' and 'Viability' (case insensitive) are then removed. The remaining channels will have the heavy metal removed. Therefore, if the channel name is '89Y_CD45', the marker name will be 'CD45'. If the channel name is '141Pr_CD196_CCR6', the marker name will be 'CD196_CCR6'.
+
+
+
+## Loading Data
+The `load_data` function will import your FCS file via `flowCore` and return a data frame. By default, it will perform an arcsinh transformation with a cofactor of 5:
+
+```
+data <- load_data(input.file)
+```
+
+This output is identical to the first data frame of the Quick Start function. There are various options under `load_data` such as switching off data transformation, using a different cofactor or subsetting the data. Please find the details in the help pages by running `help(load_data)`.
+
+Non-redundancy scores (NRS) of all imported markers can be then be plotted out for examination:
+
+```
+plot_NRS(data)
+```
+
+![NRS](/images/NRS.png)
+
+
+
+## Binary Classification
+Cell type stratification can then be achieved by simply running the `binary_class` function:
+
+```
+class.file <- '/your/data/directory/cell_types.csv'
+binary.results <- binary_class(data, class.file = class.file)
+```
+
+which exhaustively prints out the classification results:
+
+```
+> head(binary.results, 10)
+      Cell.Type
+1  T Cells, CD8
+2  T Cells, CD4
+3  T Cells, CD8
+4  T Cells, CD8
+5     Monocytes
+6  T Cells, CD4
+7  Unclassified
+8     Monocytes
+9  T Cells, CD8
+10    Monocytes
+
+```
+
+From experience, binary classification works better without scaling (standardising), but it is possible to scale the data with the `scale = TRUE` argument. This results can then be summarised using the `binary_summary` function:
+
+```
+binary.summary <- binary_summary(data, binary.results)
+```
+
+```
+> binary.summary
+             Cell.Type     CD45 CD196_CCR6       CD19 CD127_IL-7Ra      CD38
+1              B Cells 5.175686 2.78220628 4.55294083   0.24782457 2.6548137
+2      Dendritic Cells 4.973808 0.17358345 0.05988902   0.00000000 2.8594343
+3            Monocytes 5.068816 0.25412941 0.07413499   0.06794235 3.6651274
+4             NK Cells 4.780354 0.00000000 0.05407581   0.00000000 3.9153949
+5         T Cells, CD4 5.146704 0.27671830 0.00000000   2.36491443 0.5727581
+6         T Cells, CD8 5.126842 0.00000000 0.00000000   0.37595694 0.2547606
+7 T Cells, Gamma Delta 5.206422 0.06492577 0.00000000   1.29968831 0.2822164
+8         Unclassified 5.140761 0.40987699 0.02674537   1.64831625 0.4436681
+       CD33       IgD      CD11c       CD16   CD194_CCR4        CD34
+1 0.1094124 4.3819244 0.08709911 0.02833477 0.0000000000 0.000000000
+2 1.6333382 0.1881026 4.83674662 1.86184415 0.3341434080 0.212236144
+3 2.4676174 0.2542666 4.75456686 1.06149001 0.4275743442 0.213740130
+4 0.1222321 0.1060854 3.17299179 3.55946059 0.0002289466 0.007264909
+5 0.0000000 0.0000000 0.00000000 0.00000000 0.5755964856 0.059087905
+6 0.0000000 0.0000000 0.02973928 0.00000000 0.0000000000 0.000000000
+7 0.0000000 0.0000000 0.44546332 0.15615956 0.1030871205 0.067559716
+8 0.0000000 0.0000000 0.08800407 0.03359136 0.1902003924 0.018908433
+...
+        CD4       CD14  CD56_NCAM       CD11b Frequency Percentage
+1 0.8065952 0.00000000 0.00000000 0.000000000      4105   6.400262
+2 3.2867254 0.40429234 0.07917726 0.054064754      7765  12.106707
+3 3.5688402 2.80552018 0.19211170 0.058509953     18883  29.441205
+4 0.1929261 0.00000000 4.05164056 0.007594521      5561   8.670367
+5 5.4276076 0.30775171 0.25694324 0.000000000     11667  18.190464
+6 0.1380546 0.00000000 0.16847492 0.000000000     14128  22.027503
+7 0.1121716 0.00000000 0.55513300 0.000000000      1222   1.905267
+8 0.7842022 0.06361226 0.18849300 0.023166919       807   1.258224
+
+```
+
+which is the second data frame of the Quick Start function. This summary can then be plotted out using two functions. `plot_binary_abundances` will give you a barchart
+of the cell types:
+
+![Cell Type Abundances](/images/cell_type_abundances.png)
+
+`plot_binary_median` will return a heatmap of median expressions of each marker for each cell type:
+
+![Cell Type Medians](/images/cell_type_medians.png)
+

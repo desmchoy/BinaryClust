@@ -335,3 +335,71 @@ of the cell types:
 
 
 ## Data Visualisation with _t_-SNE and UMAP
+BinaryClust can use the `Rtsne` and `umap` packages to generate _t_-SNE and UMAP plots.
+
+##### _t_-SNE
+To run _t_-SNE, run the `run_TSNE` function:
+
+```
+tsne.results <- run_TSNE(data)
+```
+
+This will return the full Rtsne object, which includes all the iteration details for the inquisitive minds. Raw _t_-SNE coordinates, if needed, can be extracted by:
+
+```
+tsne.results$Y
+```
+
+Random seed has been set to 1 to ensure reproducibility. Default values are `perplexity = 30` and `n_iter = 1000`, which can be tuned to your needs. Please note that _t_-SNE requires a fair amount of computational resources so it might take a long time to run on a local installation.
+
+There are two plotting functions associated with _t_-SNE. First, to colour the _t_-SNE plot by marker expressions, one can use the `plot_TSNE_marker` function. For example:
+
+```
+plot_TSNE_marker(tsne.results, data, marker = 'CD8')
+```
+
+![plot_TSNE_marker, CD8](/images/plot_TSNE_marker_CD8.png)
+
+Binary classification results can be projected onto the _t_-SNE plot with `plot_TSNE`. Remember to feed in the entire Rtsne object, not just the coordinates:
+
+```
+plot_TSNE(tsne.results, binary.results)
+```
+
+![Binary Classification projected on t-SNE](images/plot_TSNE.png)
+
+There are additional options in the functions which would allow you to customise the plots. Please refer to the help pages for details.
+
+
+##### UMAP
+To run UMAP, run the `run_UMAP` function:
+
+```
+umap.results <- run_UMAP(data)
+```
+
+This will return the full umap object, which includes all the iteration details for the inquisitive minds. Raw UMAP coordinates, if needed, can be extracted by:
+
+```
+umap.results$layout
+```
+
+Random seed has been set to 1 to ensure reproducibility. Please note that UMAP requires a fair amount of computational resources so it might take a long time to run on a local installation.
+
+There are two plotting functions associated with UMAP. First, to colour the UMAP plot by marker expressions, one can use the `plot_UMAP_marker` function. For example:
+
+```
+plot_UMAP_marker(umap.results, data, marker = 'CD8')
+```
+
+![plot_UMAP_marker, CD8](/images/plot_UMAP_marker_CD8.png)
+
+Binary classification results can be projected onto the UMAP plot with `plot_UMAP`. Remember to feed in the entire umap object, not just the coordinates:
+
+```
+plot_UMAP(umap.results, binary.results)
+```
+
+![Binary Classification projected on UMAP](images/plot_UMAP.png)
+
+There are additional options in the functions which would allow you to customise the plots. Please refer to the help pages for details.

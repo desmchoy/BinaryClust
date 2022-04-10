@@ -299,7 +299,7 @@ plot_TSNE_marker <- function ( tsne.results = NULL,
 		return ('Please provide t-SNE object (use run_TSNE).')
 	}
 
-	if ( is.null(binary.results) ) {
+	if ( is.null(data) ) {
 		return ('Please provide data (use load_data).')
 	}
 
@@ -370,7 +370,7 @@ plot_UMAP_marker <- function ( umap.results = NULL,
 		return ('Please provide UMAP object (use run_UMAP).')
 	}
 
-	if ( is.null(binary.results) ) {
+	if ( is.null(data) ) {
 		return ('Please provide data (use load_data).')
 	}
 

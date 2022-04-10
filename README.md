@@ -490,7 +490,7 @@ plot_cluster_heatmap(data, cluster.results, 'T Cells, CD8')
 Suppose you have performed BinaryClust analysis on multiple samples individually and have exported their corresponding cluster summary files, there are functions that allow you to compare these results based on user-defined groupings.
 
 ##### The comparison input file
-To perform differential analysis, you will need to prepare a third input file in CSV format that basically specifies conditions and cluster summary files. For example:
+To perform differential analysis, you will need to prepare a third input file in CSV format that basically specifies conditions and cluster summary files. Please only include two conditions. For example:
 
 ```
 Condition,File
@@ -507,4 +507,137 @@ Pat,/your/data/directory/Pat4_EOT.csv
 Pat,/your/data/directory/Pat4_SCR.csv
 ```
 
+Then you can load all the summaries with `load_multi_samples`:
 
+```
+file.list <- '/your/data/directory/file_list.csv'
+multi.data <- load_multi_samples(file.list)
+```
+
+It will concatenate all the cluster summary files:
+
+```
+> head(multi.data)
+  Cell.Type Cluster     CD45 CD196_CCR6     CD19 CD127_IL.7Ra      CD38
+1   B Cells       1 4.629509  0.4825302 4.206931    0.1735501 2.2572409
+2   B Cells      10 4.998703  2.1463927 4.311907    0.6078311 3.3948478
+3   B Cells      11 4.908098  0.8790483 4.565507    0.2409447 0.1634295
+4   B Cells      12 4.987891  2.6257633 4.189637    0.3728668 4.6644736
+5   B Cells      13 5.210385  1.4615570 5.607920    0.5994589 0.4227020
+6   B Cells      14 5.685553  1.5201998 5.027208    0.1988441 0.3636492
+       CD33      IgD     CD11c       CD16 CD194_CCR4        CD34 CD123_IL.3R
+1 0.2304990 0.000000 0.3663483 0.00000000  0.0000000 0.098682680  0.00000000
+2 0.5070841 5.083520 0.5062096 0.41352066  0.0000000 0.108504871  0.09992959
+3 0.1449683 3.051967 0.2591035 0.01068233  0.0000000 0.031340424  0.00000000
+4 0.7082969 5.151166 0.5186167 0.09386795  0.0000000 0.101895653  0.17988604
+5 0.2454778 4.450915 3.2991139 0.27905773  0.0791512 0.275589937  0.09844255
+6 0.1080207 2.908541 1.7384351 0.14263479  0.0000000 0.007528256  0.00000000
+...
+        CD14   CD56_NCAM      CD11b Frequency Percentage Cell.Subtype
+1 0.22157777 0.000000000 0.00000000        13 0.08443752
+2 0.18969796 0.002027638 0.08657339        11 0.07144713
+3 0.06690649 0.066862267 0.03511942        19 0.12340868
+4 0.15279500 0.007751477 0.15786430        16 0.10392310
+5 0.00000000 0.176530001 0.06257187        14 0.09093271
+6 0.21925181 0.129248998 0.12099711         9 0.05845674
+       Sample Condition
+1 HD Sample 1        HD
+2 HD Sample 1        HD
+3 HD Sample 1        HD
+4 HD Sample 1        HD
+5 HD Sample 1        HD
+6 HD Sample 1        HD
+
+```
+
+
+Then, you can use `calculate_diff` to compare the samples based on the groupings:
+
+```
+diff.results <- calculate_diff(multi.data, transform = 'default', column = 'Cell.Type')
+```
+
+which returns a list of three data frames. The first data frame reports (percentage) abundances of each cell type:
+
+```
+> head(diff.results[[1]], 10)
+   Condition      Sample            Cell.Type   PertSum
+1         HD HD Sample 1              B Cells  3.215121
+2         HD HD Sample 1      Dendritic Cells  8.002078
+3         HD HD Sample 1            Monocytes 12.568200
+4         HD HD Sample 1             NK Cells  9.223175
+5         HD HD Sample 1         T Cells, CD4 39.575214
+6         HD HD Sample 1         T Cells, CD8 25.000000
+7         HD HD Sample 1 T Cells, Gamma Delta  1.149649
+8         HD HD Sample 1         Unclassified  1.266563
+9         HD HD Sample 2              B Cells  3.510240
+10        HD HD Sample 2      Dendritic Cells 11.338125
+```
+
+The second data frame contains the log2 fold changes of each marker for each cell type:
+
+```
+> head(diff.results[[2]], 10)
+             Cell.Type        CD45 CD196_CCR6       CD19 CD127_IL.7Ra
+1              B Cells -0.22970404 -0.2599700 -0.2429808  -1.13501041
+2      Dendritic Cells -0.06847058 -0.6739416 -0.5823648  -0.66393385
+3            Monocytes  0.08666318 -0.3705416 -0.7522369  -0.46415420
+4             NK Cells -0.04894102 -1.2975248 -0.6158446   1.26313028
+5         T Cells, CD4  0.11035621  1.0927545 -1.1028954  -0.22679900
+6         T Cells, CD8  0.17471587  0.6640972 -0.5817272   0.06040337
+7 T Cells, Gamma Delta  0.07653682 -2.3797684 -1.4085702  -0.85953911
+8         Unclassified  0.33697623 -1.6963910 -0.9838840  -1.15116910
+        CD38       CD33         IgD       CD11c       CD16  CD194_CCR4
+1 -0.1570426  0.1499590 -1.24638655  1.11257045  0.5541302  1.63309254
+2 -0.3919386 -1.4391767 -1.20931257 -0.41443920 -0.5613816 -0.07906084
+3 -0.4929130 -0.9269763 -0.68601994  0.01803921  0.8617945  0.43979345
+4  0.4292020 -1.2774064 -0.03734553 -0.27860215 -0.5752491 -0.21897400
+5  1.0354683  1.3399111  0.82005888  5.59662093  2.2106574 -0.10970286
+6  2.6549376  0.9681757 -0.85550323  2.22722522  3.3873764 -0.11391381
+7  2.3914773 -0.9284685 -0.45406303  1.01115115  0.4694166 -0.51578438
+8  0.5313064 -0.6293400 -2.35236147  1.16484943 -0.1089107 -0.50578358
+...
+   CD56_NCAM      CD11b
+1  3.7976647 -0.9879263
+2  0.5720582 -0.2398707
+3  1.9164167  0.9715892
+4  0.2781583 -1.0345319
+5  0.3864566 -1.0220416
+6 -0.1321637 -0.9650961
+7  1.1536651 -0.9666266
+8  0.6639926  0.6391839
+```
+
+The third data frame are the _p_-values for the fold changes:
+
+```
+> head(diff.results[[3]], 10)
+             Cell.Type      CD45 CD196_CCR6      CD19 CD127_IL.7Ra      CD38
+1              B Cells 0.6626263  0.8404040 0.6012121    0.4460606 0.9212121
+2      Dendritic Cells 0.6626263  0.7951515 0.6303030    0.4460606 0.2666667
+3            Monocytes 0.6626263  0.8865801 0.5575758    0.5679654 0.4460606
+4             NK Cells 0.7757576  0.7515152 0.5575758    0.4460606 0.7203463
+5         T Cells, CD4 0.6626263  0.5333333 0.3393939    0.5679654 0.2262626
+6         T Cells, CD8 0.6626263  0.7515152 0.6303030    0.9212121 0.0969697
+7 T Cells, Gamma Delta 0.7757576  0.3878788 0.6303030    0.4460606 0.1939394
+8         Unclassified 0.6626263  0.9212121 0.3393939    0.4460606 0.5010101
+       CD33       IgD     CD11c      CD16 CD194_CCR4      CD34 CD123_IL.3R
+1 0.9212121 0.5575758 0.3878788 0.6626263  0.6626263 1.0000000   1.0000000
+2 0.7434343 0.5575758 0.3878788 0.4460606  0.8865801 1.0000000   1.0000000
+3 0.7434343 0.5575758 1.0000000 0.2262626  0.6626263 0.7515152   0.1939394
+4 0.7434343 0.8865801 0.4294372 0.3878788  0.6626263 0.0969697   1.0000000
+5 0.9212121 0.9212121 0.3878788 0.0969697  0.6626263 1.0000000   1.0000000
+6 0.9212121 0.5575758 0.3878788 0.0969697  0.9212121 0.7515152   1.0000000
+7 0.9212121 0.8404040 0.4294372 1.0000000  0.6626263 0.5333333   1.0000000
+8 0.9212121 0.6012121 0.4294372 1.0000000  0.6626263 1.0000000   1.0000000
+...
+       CD14 CD56_NCAM      CD11b
+1 1.0000000 0.7434343 0.06464646
+2 0.3555556 0.7434343 0.17777778
+3 1.0000000 0.9939394 0.27878788
+4 0.7515152 1.0000000 0.04848485
+5 0.0969697 1.0000000 0.04848485
+6 0.2077740 1.0000000 0.17777778
+7 1.0000000 1.0000000 0.17777778
+8 1.0000000 0.7434343 0.27878788
+```

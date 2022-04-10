@@ -403,3 +403,77 @@ plot_UMAP(umap.results, binary.results)
 ![Binary Classification projected on UMAP](images/plot_UMAP.png)
 
 There are additional options in the functions which would allow you to customise the plots. Please refer to the help pages for details.
+
+
+
+## Clustering
+Post-binary classification clustering can be achieved by the `cluster_subsets` function:
+
+```
+cluster.results <- cluster_subsets(data, binary.results)
+```
+
+The default is to run _K_-means clustering with _K_ = 40 (_i.e._ this time actually performing clustering rather than binary classification). It is possible to use FlowSOM instead by invoking `method = 'FlowSOM'` in the function:
+
+```
+cluster.results <- cluster_subsets(data, binary.results, method = 'FlowSOM')
+```
+
+This returns an exhaustive list of clustering results. The default is identical to the third data frame of the Quick Start results:
+
+```
+> head(cluster.results, 10)
+      Cell.Type Cluster
+1  T Cells, CD8      14
+2  T Cells, CD4      12
+3  T Cells, CD8       6
+4  T Cells, CD8      13
+5     Monocytes      37
+6  T Cells, CD4      27
+7  Unclassified      22
+8     Monocytes      13
+9  T Cells, CD8      38
+10    Monocytes      17
+```
+
+Similar to the binary classification results, one can summarise this clustering results with `cluster_summary`:
+
+```
+cluster.summary <- cluster_summary(data, cluster.results)
+```
+
+which gives you the fourth data frame of the Quick Start results:
+
+```
+> head(cluster.summary)
+  Cell.Type Cluster     CD45 CD196_CCR6     CD19 CD127_IL-7Ra      CD38
+1   B Cells       1 5.183019   3.010737 4.540483    0.2702582 2.9931332
+2   B Cells      10 5.228531   2.993737 4.525644    0.3465922 2.8844837
+3   B Cells      11 5.289203   3.215675 4.578061    0.3309095 2.9068091
+4   B Cells      12 5.225922   3.014848 4.640801    0.3533902 3.2260787
+5   B Cells      13 5.638985   2.356074 5.106351    0.2998796 0.4539694
+6   B Cells      14 5.142492   3.049752 4.491411    0.1922581 2.7137650
+        CD33      IgD       CD11c       CD16 CD194_CCR4       CD34 CD123_IL-3R
+1 0.18340631 4.729382 0.047617543 0.04522073          0 0.00000000  0.88381936
+2 0.23242867 5.289254 0.144420908 0.19974567          0 0.00000000  0.14282269
+3 0.20523241 5.151498 0.065258649 0.10088530          0 0.00000000  0.16123497
+4 0.33259819 5.236240 0.154991630 0.20030491          0 0.02758150  0.09937608
+5 0.09449718 4.009340 0.572196788 0.00000000          0 0.02360902  0.00000000
+6 0.14647881 4.473472 0.004331125 0.07859564          0 0.00000000  0.22138783
+...
+CD56_NCAM       CD11b Frequency Percentage Cell.Subtype
+1 0.00000000 0.000000000       158  0.2463438
+2 0.00000000 0.000000000       235  0.3663975
+3 0.00000000 0.000000000       182  0.2837631
+4 0.05507358 0.586458700        76  0.1184945
+5 0.04204587 0.004363943        76  0.1184945
+6 0.00000000 0.000000000       176  0.2744083
+```
+
+One can also plot out heatmaps for each cell type using the `plot_cluster_heatmap` function. The third argument in the function has to be identical to an entry in the input CSV file:
+
+```
+plot_cluster_heatmap(data, cluster.results, 'T Cells, CD8')
+```
+
+![CD8 T Cells heatmap](/images/heatmap_CD8T.png)

@@ -470,6 +470,12 @@ CD56_NCAM       CD11b Frequency Percentage Cell.Subtype
 6 0.00000000 0.000000000       176  0.2744083
 ```
 
+The cluster summary is very important for further analysis, and can be exported as a CSV with base R function:
+
+```
+write.table(cluster.summary, file = '/your/data/directory/HD_results.csv', sep = ',', col.names = NA)
+```
+
 One can also plot out heatmaps for each cell type using the `plot_cluster_heatmap` function. The third argument in the function has to be identical to an entry in the input CSV file:
 
 ```
@@ -477,3 +483,28 @@ plot_cluster_heatmap(data, cluster.results, 'T Cells, CD8')
 ```
 
 ![CD8 T Cells heatmap](/images/heatmap_CD8T.png)
+
+
+
+## Differential Abundances and Expressions
+Suppose you have performed BinaryClust analysis on multiple samples individually and have exported their corresponding cluster summary files, there are functions that allow you to compare these results based on user-defined groupings.
+
+##### The comparison input file
+To perform differential analysis, you will need to prepare a third input file in CSV format that basically specifies conditions and cluster summary files. For example:
+
+```
+Condition,File
+HD,/your/data/directory/HD1.csv
+HD,/your/data/directory/HD2.csv
+HD,/your/data/directory/HD3.csv
+Pat,/your/data/directory/Pat1_EOT.csv
+Pat,/your/data/directory/Pat1_SCR.csv
+Pat,/your/data/directory/Pat2_EOT.csv
+Pat,/your/data/directory/Pat2_SCR.csv
+Pat,/your/data/directory/Pat3_EOT.csv
+Pat,/your/data/directory/Pat3_SCR.csv
+Pat,/your/data/directory/Pat4_EOT.csv
+Pat,/your/data/directory/Pat4_SCR.csv
+```
+
+

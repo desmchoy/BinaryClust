@@ -554,7 +554,7 @@ It will concatenate all the cluster summary files:
 Then, you can use `calculate_diff` to compare the samples based on the groupings:
 
 ```
-diff.results <- calculate_diff(multi.data, transform = 'default', column = 'Cell.Type')
+diff.results <- calculate_diff(multi.data)
 ```
 
 which returns a list of three data frames. The first data frame reports (percentage) abundances of each cell type:
@@ -641,3 +641,31 @@ The third data frame are the _p_-values for the fold changes:
 7 1.0000000 1.0000000 0.17777778
 8 1.0000000 0.7434343 0.27878788
 ```
+
+
+
+Abundances can then be plotted using the `plot_diff_abundances` function:
+
+```
+plot_diff_abundances(multi.data)
+```
+
+![Abundances (bar)](images/diff_abundances_bar.png)
+
+Alternatively, you can change the style by invoking `style = 'dot'`:
+
+```
+plot_diff_abundances(multi.data, style = 'dot')
+```
+
+
+![Abundances (dot)](images/diff_abundances_dot.png)
+
+
+
+Fold changes and differential abundances can be summarised using `plot_diff_exp`:
+
+```
+plot_diff_exp(diff.results)
+```
+

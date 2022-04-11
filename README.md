@@ -550,6 +550,7 @@ It will concatenate all the cluster summary files:
 
 ```
 
+Please note that these synthetic data are for demonstration only and thus have no actual biological meaning.
 
 Then, you can use `calculate_diff` to compare the samples based on the groupings:
 
@@ -669,3 +670,6 @@ Fold changes and differential abundances can be summarised using `plot_diff_exp`
 plot_diff_exp(diff.results)
 ```
 
+![Differential Expressions](images/diff_exp.png)
+
+Fold changes with significance (_i.e._ FDR < 0.05) are marked with 'S'.

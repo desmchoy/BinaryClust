@@ -326,9 +326,29 @@ binary.summary <- binary_summary(data, binary.results)
 which is the second data frame of the Quick Start function. This summary can then be plotted out using two functions. `plot_binary_abundances` will give you a barchart
 of the cell types:
 
+```
+plot_binary_abundances(binary.summary)
+```
+
+or, if you use the Quick Start results:
+
+```
+plot_binary_abundances(BC.results[[2]])
+```
+
 ![Cell Type Abundances](/images/cell_type_abundances.png)
 
 `plot_binary_median` will return a heatmap of median expressions of each marker for each cell type:
+
+```
+plot_binary_median(binary.summary)
+```
+
+or, if you use the Quick Start results:
+
+```
+plot_binary_median(BC.results[[2]])
+```
 
 ![Cell Type Medians](/images/cell_type_medians.png)
 

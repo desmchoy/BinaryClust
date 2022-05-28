@@ -32,7 +32,7 @@ run_TSNE <- function ( data = NULL,
 		return('Please enter TRUE or FALSE for scale')
 	}
 
-	tsne.results <- Rtsne(to.run, perplexity = perplexity, max_iter = n_iter, pca_center = center)
+	tsne.results <- Rtsne(to.run, perplexity = perplexity, max_iter = n_iter, pca_center = center, check_duplicates = FALSE)
 
 	return ( tsne.results )
 

@@ -217,7 +217,7 @@ run_kmeans_cluster <- function ( data,
 
 	if ( dim(data.subset)[1] == 0 ) {
 		print(paste0('There are no cells in the subset ', cell.type))
-	} else if ( dim(data.subset)[1] < kmeans.nClus ) {
+	} else if ( dim(data.subset)[1] <= kmeans.nClus ) {
 		dummy.number <- 1
 		for ( i in rownames(data.subset) ) {
 			binary.results[i,'Cluster'] <- dummy.number

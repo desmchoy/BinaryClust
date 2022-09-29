@@ -289,7 +289,8 @@ plot_diff_exp <- function ( diff.results = NULL,
 		}
 		return (pch)
 	}
-	p.value.pch <- sapply(summary.table[,'p.value.adj'], pch.function)
+#	p.value.pch <- sapply(summary.table[,'p.value.adj'], pch.function)
+	p.value.pch <- sapply(summary.table[,'p.value'], pch.function)
 
 	row.anno <- rowAnnotation('Condition 1' = anno_simple(summary.table[,'mean.freq.1'],
 			pch = 20,

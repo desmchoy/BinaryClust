@@ -226,9 +226,7 @@ run_kmeans_cluster <- function ( data,
 		print(paste0('There are less than ', kmeans.nClus, ' cells in the subset ', cell.type, '. No clustering is performed.'))
 	} else {
 		temp.kmeans <- kmeans(data.subset, kmeans.nClus, iter.max = 50)
-		for ( i in names(temp.kmeans$cluster) ) {
-			binary.results[as.numeric(i),'Cluster'] <- temp.kmeans$cluster[i]
-		}
+		binary.results[as.numeric(names(temp.kmeans$cluster)),'Cluster'] <- temp.kmeans$cluster[names(temp.kmeans$cluster)]
 	}
 	return ( binary.results )
 }

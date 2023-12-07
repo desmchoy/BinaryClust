@@ -1,6 +1,13 @@
 # BinaryClust
 Tools for CyTOF analysis
 
+This tool has now been published:
+
+```
+"Pre-treatment with systemic agents for advanced NSCLC elicits changes in the phenotype of autologous T cell therapy products"
+Molecular Therapy - Oncolytics, 31, 100749 (2023)
+https://doi.org/10.1016/j.omto.2023.100749
+```
 
 
 ## Introduction
